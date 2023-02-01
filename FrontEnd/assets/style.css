@@ -146,12 +146,17 @@ li:hover {
 	background-color: rgb(250, 250, 250);
 }
 
-.buttons:hover{
+.active{
 	background-color: #1D6154;
   	cursor: pointer;
 	color: #ffffff; 
 }
 
+.buttons:hover{
+	background-color: #1D6154;
+  	cursor: pointer;
+	color: #ffffff; 
+}
 .gallery {
 	width: 100%;
 	display: grid;
@@ -248,13 +253,15 @@ color: #B1663C;
 	margin-top: 15px;
   }
 
-.modification{
+.modifTag{
 	font-size:14px;
 	font-weight: 400;
 	color: rgba(0,0,0,1);
 	font-family: work sans;
 }
-
+#modalLink:hover, .fa-xmark:hover, .fa-trash-can:hover{
+	cursor:pointer;
+}
 #portfolio h2 span{
 	margin-left: 20px;
   }
