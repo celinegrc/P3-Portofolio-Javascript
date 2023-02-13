@@ -66,7 +66,7 @@ fetch("http://localhost:5678/api/works")
      for (let work of data){
       displayWork(work)
     }
-
+    deleteWork(data)
 // Boutons-filtres: ajout du style lors de la sélection
     const categoryButtons = document.querySelectorAll('.buttons')
     for(let button of categoryButtons){
@@ -113,7 +113,7 @@ fetch("http://localhost:5678/api/works")
 
 if (userToken === null){
 
-   // Supression des éléments affichés en mode éditeur
+// Suppression des éléments affichés uniquement en mode éditeur
   let modifyTag = document.querySelectorAll(".modifTag")
     for (let tag of modifyTag){
       tag.remove()
