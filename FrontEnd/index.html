@@ -8,8 +8,9 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
-	<meta name="description" content="">
 	<script src="script.js" defer></script>
+	<script src="EditionMode.js" defer ></script>
+		<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
@@ -18,7 +19,6 @@
 			<i class="fa-regular fa-pen-to-square"></i>
 			<span>Mode Edition</span>
 		</div>
-		
 		<div>
 			<span id="publishButton">publier les changements</span>
 		</div>
@@ -36,6 +36,7 @@
 			</ul>
 		</nav>
 	</header>
+
 	<main>
 		<section id="introduction">
 			<figure>
@@ -50,11 +51,13 @@
 				<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 			</article>
 		</section>
+
 		<section id="portfolio">
 			<h2>Mes Projets<span id="modalLink" class="modifTag"><i class="fa-regular fa-pen-to-square"></i> Modifier</span></h2>
 			<div class="gallery">
 			</div>
 		</section>
+
 		<section id="contact">
 			<h2>Contact</h2>
 			<p>Vous avez un projet ? Discutons-en !</p>
@@ -78,54 +81,53 @@
 		</nav>
 	</footer>
 
-<aside id="modalWindow">
-	<div class="modalContenu jsStop">
+	<aside id="modalWindow">
+		<div class="modalContent jsStop">
 		<i class="fa-sharp fa-solid fa-xmark"></i>
 		<h2> Galerie photo</h2>
 		<div class="galleryEdition">
 		</div>
 		<p id="openAddModal"> Ajouter une photo</p>
 		<p id="gallerySuppression">supprimer la galerie</p>	
-	</div>	
-</aside>
-<div id="addWork">
+		</div>	
+	</aside>
 
-	<!--<form method="post" enctype="multipart/form-data">
-		<div>
-		  <label for="profile_pic">Sélectionnez le fichier à utiliser</label>
-		  <input type="file" id="profile_pic" name="profile_pic"
-				accept=".jpg, .jpeg, .png">
-		</div>
-		<div>
-		  <button>Envoyer</button>
-		</div>
-	  </form>-->
-	<div class="addContenu jsStop2">
-		<i id ="xClose" class="fa-sharp fa-solid fa-xmark"></i>
-		<h2> Ajout de photo</h2>
-		<div class=insertPhoto>
-			<i class="fa-regular fa-image"></i>
-			<input type="file" id="AddBouton">+ Ajouter photo</input>
-			<p>jpg, png : 4mo max</p>
-		</div>
-		<form id="addWorkForm"  method="post">
-			<label for="titre">Titre</label>
-			<input type="text" name="titre" id="titre">
-            <label for="categoryForm">Catégorie</label>
-			<select name="categoryForm" id="categoryForm">
-			 </select>
-			<input type="submit" value="Valider" id="boutonSubmit">
-		</form>	
-	</div>	
-</div>
+	<aside id="addWork">
+		<div class="addContent jsStop">
+			<i class="fa-solid fa-arrow-left"></i>
+			<i id ="xClose" class="fa-sharp fa-solid fa-xmark"></i>
+			<h2> Ajout de photo</h2>
 
-<div id="deleteConfirm">
-	<div id="deleteConfirmContenu">
-		<p> Etes-vous sûr(e) de vouloir supprimer définitivement cette photo?</p>
-		<div id="imgContainer"><img></div>
-		<p id="confirmBtn"> Je confirme</p>
-		<p id="cancelBtn"> Annuler </p>
+			<form id="addWorkForm" >
+				<div class="insertPhoto">
+					<i class="fa-regular fa-image"></i>
+					<div id="addButton"> 
+						<label for="image"> + Ajouter photo </label>
+						<input type="file" name ="image" id="file" accept=".png, .jpg"  required>
+					</div>
+					<p>jpg, png : 4mo max</p>
+				</div>
+				<div class="forBorder">
+					<label for="title">Titre</label>
+					<input type="text" name="title" id="pictureTitle" required>
+
+					<label for="category">Catégorie</label>
+					<select name="category" id="categoryForm" required>
+						<option></option>
+					</select>
+				</div>
+				<input type="submit" value="Valider" id="validButton">
+			</form>	
+		</div>	
+	</aside>
+
+	<div id="deleteConfirm">
+		<div id="deleteConfirmContenu">
+			<p> Photo supprimée, cliquez sur Publier les changements</p>
+			<div id="imgContainer"> </div>
+			<p id="closeBtn"> Fermer </p>
+		</div>
 	</div>
-</div>
 </body>
+
 </html>
