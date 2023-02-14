@@ -1,14 +1,15 @@
 let userToken = localStorage.getItem("token")
 
 const workButtonContainer = document.createElement("ul")
-const modalWindows = document.querySelector("#modalWindow")
+const modalWindow = document.querySelector("#modalWindow")
 const addWorkWindow = document.querySelector("#addWork")
 const thumbnailWindow = document.querySelector("#deleteConfirm")
-const windowsEditionMode = [modalWindows, addWorkWindow, thumbnailWindow]
+const windowsEditionMode = [modalWindow, addWorkWindow, thumbnailWindow]
 const categoryButtons = document.querySelectorAll(".buttons")
 const logOutButton =  document.querySelector("#logoutButton")
+const logInButton = document.querySelector("#loginButton")
 const headerEdition = document.querySelector(".editionMode")
-const EditionModeElement =[logOutButton, headerEdition, modalWindows, addWorkWindow, thumbnailWindow]
+const EditionModeElement =[logOutButton, headerEdition, modalWindow, addWorkWindow, thumbnailWindow]
 const modifyTag = document.querySelectorAll(".modifTag")
  
 function pushModifyTag() {
