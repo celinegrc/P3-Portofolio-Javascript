@@ -126,7 +126,7 @@ li:hover {
 	margin-bottom: 1em;
 }
 /* Ajout du style du bouton*/
-.button_container{
+.buttonContainer{
 	display:flex;
 	flex-direction:row;
 	justify-content: center;
@@ -162,13 +162,15 @@ li:hover {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 30px;
 }
 
 .gallery img {
 	width: 100%;
-
+	height:100%;
+	object-fit:cover;
 }
+
 #contact, #connexionForm {
 	width: 50%;
 	margin: auto;
@@ -224,7 +226,9 @@ footer nav ul {
 li a:hover{
 color: #B1663C;
 }
-
+#email, #password{
+	margin-bottom: 10px;
+}
 .editionMode{
 	background-color: #000000;
 	color: #ffffff;
@@ -259,7 +263,7 @@ color: #B1663C;
 	color: rgba(0,0,0,1);
 	font-family: work sans;
 }
-#modalLink:hover, .fa-xmark:hover, .fa-trash-can:hover{
+#modalLink:hover, .fa-xmark:hover, .fa-trash-can:hover, #openAddModal:hover{
 	cursor:pointer;
 }
 #portfolio h2 span{
@@ -281,7 +285,7 @@ color: #B1663C;
 	align-items:center;
 }
 
-.modalContenu, .addContenu {
+.modalContent, .addContent {
 	position:relative;
 	margin:auto;
 	width:750px;
@@ -295,7 +299,8 @@ color: #B1663C;
 	margin: 30px auto;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-	grid-column-gap: 20px;
+	grid-column-gap: 15px;
+	grid-row-gap: 20px;
 	border-bottom: 1px solid rgba(179,179,179,1);
 	padding-bottom:50px;
 }
@@ -304,11 +309,13 @@ color: #B1663C;
 	height:120px;
 	object-fit:cover;
 }
-
-.fa-trash-can{
+.editionImg{
 	position:relative;
-	top:2.5em;
-	left:5em;
+}
+.fa-trash-can{
+	position:absolute;
+	top:5px;
+	left:60px;
 	color:#ffffff;
 	background-color: black;
 	padding:6px;
@@ -316,22 +323,23 @@ color: #B1663C;
 	font-size:0.8em;
 }
 
-.modalContenu h2, .addContenu h2{
+.modalContent h2, .addContent h2{
 	text-align: center;
 	font-family: work sans;
 	font-size:26px;
 	color: rgba(0,0,0,1);
 	font-weight:400;
-	margin-top: 30px;
+	margin-top: 50px;
 }
 
 .fa-xmark{
-	position:relative;
-	left: 720px;
-	top:20px;
+	position:absolute;
+	left: 710px;
+	top:30px;
+	font-size:18px
 }
 
-.modalContenu p{
+.modalContent p{
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size:14px;
@@ -349,19 +357,41 @@ color: #B1663C;
 	font-weight: 400;
 	background-color: #ffffff;
 }
-
+.fa-arrow-left{
+	position:absolute;
+	left: 30px;
+	top:30px;
+	font-size:18px
+}
 .insertPhoto{
+	position:relative;
 	height: 200px;
 	background-color: rgba(232, 241, 246, 1);
-	width:70%;
 	margin: 30px auto;
+	padding: 20px 0px;
+	width:100%;
+	display:flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items:center;	
 }
+
 #addWorkForm {
 	width:70%;
 	margin:20px auto;
+	display:flex;
+	flex-direction: column;
 }
+
 #addWorkForm label{
 	margin:15px 0px;
+}
+
+.forBorder{
+	display:flex;
+	flex-direction:column;
+	border-bottom: 1px solid rgba(179,179,179,1);
+	padding-bottom: 50px;
 }
 
 .fa-image{
@@ -369,23 +399,40 @@ color: #B1663C;
 	color: rgba(185, 197, 204, 1);
 }
 
-.insertPhoto{
-	display:flex;
-	flex-direction: column;
-	justify-content: space-around;
-	align-items:center;
+#addButton {
+	position: relative;
 }
 
-#AddBouton{
-	font-family: 'Syne';
-	font-weight: 500;
+#addButton label{
+	font-family: 'work sans';
+	font-weight: 600;
+	font-size: 14px;
 	color: rgba(48, 102, 133, 1);
-	background-color: rgba(203, 214, 220, 1);
-	padding:8px 20px;
+	background: rgba(203, 214, 220, 1);
+	padding:10px 25px;
 	text-align: center;
 	border-radius: 60px;
 }
-#openAddModal:hover, #cancelBtn:hover, #confirmBtn:hover, #boutonSubmit {
+
+#file{
+	position:absolute;
+	top:-30px;
+	left:0px;
+	width:100%;
+	height:100%;
+	opacity:0;
+}
+
+#file:hover{
+	cursor:pointer;
+}
+
+#validButton{
+	background: rgba(167, 167, 167, 1);
+	width: 300px;
+}
+
+#Modal:hover, #closeBtn:hover, #boutonSubmit, #validButton {
 	cursor:pointer;	
 }
 #deleteConfirm{
@@ -401,50 +448,55 @@ color: #B1663C;
 }
  #deleteConfirmContenu{
 	position:relative;
-	width:400px;
-	height: 450px;
-	margin: 100px auto;
+	width:300px;
+	margin: 0px auto;
 	background-color: #ffffff;
 	overflow:auto;
 	border-radius:10px;
 }
 
 #deleteConfirmContenu p{
-	font-family: 'Syne';
-	font-weight: 700;
+	font-family: 'work sans';
 	font-size:14px;
 	margin : 1.5em auto ;
 	text-align: center;
 	border-radius: 60px ;
 	padding:8px 20px;
 }
-#deleteConfirmContenu span{
-	font-family: 'Syne';
-	font-weight: 700;
-	font-size:14px;
-	text-align: center;
-	border-radius: 60px ;
-	padding:8px 20px;
-	margin : 1em auto;
-}
-#confirmBtn{
-	background-color:rgba(214,83,83,1) ;
-	color: #ffffff;
-	width:200px;
-}
-#cancelBtn{
+
+#closeBtn{
 	background-color:rgba(48, 102, 133, 1) ;
 	color: #ffffff;
-	width:200px;
+	box-sizing:border-box;
+	width:50%;
 }
 
 #imgContainer{
-	width:40%;
+	width:50%;
 	margin:auto;
 }
 
 #imgContainer img{
 	object-fit:cover;
 	width:100%;
+}
+.publish:hover {
+	cursor:pointer;
+}
+
+
+/*.image{
+	height:100%;
+	width:40%;
+	background-color: antiquewhite;
+	position: absolute;
+	display:none;
+}*/
+
+.uploadedImage {
+width:40%;
+height:100%;
+object-fit:cover;
+position:absolute;
 }
 
