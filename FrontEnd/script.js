@@ -1,6 +1,7 @@
 let userToken = localStorage.getItem("token")
 
 const workButtonContainer = document.createElement("ul")
+const gallery = document.querySelector(".gallery")
 const modalWindow = document.querySelector("#modalWindow")
 const addWorkWindow = document.querySelector("#addWork")
 const thumbnailWindow = document.querySelector("#deleteConfirm")
@@ -37,14 +38,14 @@ function displayWork(work){
   workImg.src = work.imageUrl
   const workFigcaption = document.createElement("figcaption")
   workFigcaption.innerHTML = work.title
-  document.querySelector(".gallery").appendChild(workFigure)
+  gallery.appendChild(workFigure)
   workFigure.appendChild(workImg)
   workFigure.appendChild(workFigcaption)
  }
 
 function createContainerFilterButtons(){
 workButtonContainer.classList.add("buttonContainer")
-document.querySelector(".gallery").before(workButtonContainer)
+gallery.before(workButtonContainer)
 }
 
 function createCategorySet(categories){
@@ -53,29 +54,16 @@ function createCategorySet(categories){
     for (let category of categories){
     categorySet.add(category.name)
   } createCategoryButtons(categorySet)
+  styleActiveButtons()
 }
 
 function createCategoryButtons(categorySet){
   for (let name of categorySet){
     let workButton = document.createElement("li")
-    workButton.classList.add('buttons')
+    workButton.classList.add("buttons")
     workButton.innerText = name
     workButtonContainer.appendChild(workButton)
   } 
-}
-
-function styleActiveButtons(){
-   for (let button of categoryButtons){
-   if (button.innerText === "Tous"){
-     button.classList.add("active")
-   }
-   button.addEventListener("click",() => {
-     for (let activeButton of categoryButtons){
-       activeButton.classList.remove("active")   
-     }
-   button.classList.add("active")
-   })
- }
 }
 
 
@@ -83,7 +71,7 @@ function displayFilter(data){
   const categoryButtons = document.querySelectorAll('.buttons')
   for(let button of categoryButtons){
     button.addEventListener("click",(e) => {
-      document.querySelector(".gallery").innerHTML=" ";
+      gallery.innerHTML=" ";
       const workFiltres = data.filter(
       data => data.category.name === e.target.innerText
       )
@@ -99,6 +87,20 @@ function displayFilter(data){
   }   
 }
 
+function styleActiveButtons(){
+  const categoryButtons = document.querySelectorAll(".buttons")
+  for (let button of categoryButtons){
+  if (button.innerText === "Tous"){
+    button.classList.add("active")
+  }
+  button.addEventListener("click",() => {
+    for (let activeButton of categoryButtons){
+      activeButton.classList.remove("active")   
+    }
+  button.classList.add("active")
+  })
+}
+}
 
  fetch("http://localhost:5678/api/categories") 
  .then(function(response) {
@@ -112,25 +114,31 @@ function displayFilter(data){
  .catch (function(err) {
    console.log('Une erreur est survenue',err)})
 
-   
-fetch("http://localhost:5678/api/works")
+ 
+   function fetchIndex() {fetch("http://localhost:5678/api/works")
   .then(function(response) {
     if (response.ok) {
       return response.json();
     }
   })
   .then(function(data){
+    gallery.innerHTML=" "
+    
     for (let work of data){
       displayWork(work)
+      
     }
-    deleteWork(data)
+   deleteWork(data)
+   styleActiveButtons()
     displayFilter(data) 
-    styleActiveButtons() 
   })
   .catch (function(err) {
     console.log('Une erreur est survenue',err)
   })
+ }
 
+  fetchIndex() 
+  
 
 if (userToken === null){
   undisplayEditionModeElement()

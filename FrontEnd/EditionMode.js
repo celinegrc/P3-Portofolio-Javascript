@@ -1,12 +1,17 @@
-if (userToken !== null){
 
-  const inputFile = document.querySelector("#file")
+
+  const inputFile = document.querySelector("#image")
   const uploadedImg = document.createElement("img")
+  const deleteImg = document.createElement("img")
   uploadedImg.classList.add("uploadedImage")
   const form = document.querySelector("#addWorkForm")
-  const parentSelect = document.querySelector("#categoryForm")
+  const parentSelect = document.querySelector("#category")
   const emptyOption = document.createElement("option")
+  const galleryEdition = document.querySelector(".galleryEdition")
 
+  const jsStop = document.querySelectorAll(".jsStop")
+  
+  if (userToken !== null){
   logInButton.remove()
   workButtonContainer.remove()
   logOutButton.addEventListener("click", ()=>{
@@ -23,7 +28,7 @@ if (userToken !== null){
     imgEdition.src = work.imageUrl
     const figcaptionEdition = document.createElement("figcaption")
     figcaptionEdition.innerHTML = "éditer"
-    document.querySelector(".galleryEdition").appendChild(figureEdition)
+    galleryEdition.appendChild(figureEdition)
     figureEdition.appendChild(deleteIcon)
     figureEdition.appendChild(imgEdition)
     figureEdition.appendChild(figcaptionEdition)
@@ -39,6 +44,73 @@ function createOptionSelect(data){
     }
 }
 
+function closeModalWindow (element){
+  element.addEventListener("click",()=>{
+  modalWindow.style.display="none"
+  })
+}
+
+function closeAddWorkWindow (element){
+  element.addEventListener("click",()=>{
+  addWorkWindow.style.display="none"
+  })
+}
+
+function reset(){
+  form.reset()
+  if (document.querySelector(".uploadedImage")){
+    document.querySelector(".uploadedImage").remove()
+  }
+}
+
+function formReset (element){
+  element.addEventListener("click",()=>{
+    reset()
+  })
+}
+
+function createDeleteThumbnail(data){
+   deleteImg.src = data.imageUrl 
+  document.querySelector("#imgContainer").appendChild(deleteImg) 
+}
+
+function closeDeleteThumbnailEvent(){
+  deleteImg.remove()
+  thumbnailWindow.style.display="none" 
+}
+
+
+
+function jsStopPropagation(){
+  for (let js of jsStop) {
+    js.addEventListener("click", (e)=>{
+     e.stopPropagation()
+    })
+  }
+} 
+
+
+closeModalWindow(document.querySelector(".fa-xmark"))
+  closeModalWindow(modalWindow)
+  closeModalWindow(document.querySelector("#openAddModal"))
+  closeAddWorkWindow(document.querySelector("#xClose"))
+  closeAddWorkWindow(document.querySelector(".fa-arrow-left"))
+  closeAddWorkWindow(document.querySelector("#validButton"))
+  closeAddWorkWindow(addWorkWindow)
+  jsStopPropagation()
+  formReset(addWorkWindow)
+  formReset(document.querySelector("#xClose"))
+  formReset(document.querySelector(".fa-arrow-left"))
+  
+  document.querySelector("#modalLink").addEventListener("click", ()=>{
+    modalWindow.style.display ="flex";
+    })
+                  
+  document.querySelector("#openAddModal").addEventListener("click", ()=>{
+    addWorkWindow.style.display ="flex";
+    })
+
+
   fetch("http://localhost:5678/api/categories")  
   .then(function(response) {
     if (response.ok) {
@@ -53,14 +125,14 @@ function createOptionSelect(data){
   })
 
 
- 
-  fetch("http://localhost:5678/api/works")
+  function fetchEdition(){fetch("http://localhost:5678/api/works")
   .then(function(response) {
     if (response.ok) {
       return response.json();
     }
   })
   .then(function(data){
+    galleryEdition.innerHTML=" "
     for (let work of data){
       displayWorkEdition(work)
     }
@@ -69,54 +141,10 @@ function createOptionSelect(data){
   .catch (function(err) {
     console.log('Une erreur est survenue',err)
   })
-            
-  document.querySelector("#modalLink").addEventListener("click", ()=>{
-    modalWindow.style.display ="flex";
-    })
-                  
-  document.querySelector("#openAddModal").addEventListener("click", ()=>{
-    addWorkWindow.style.display ="flex";
-    modalWindow.style.display="none";
-  })
-                
-  document.querySelector(".fa-xmark").addEventListener("click", ()=>{
-    modalWindow.style.display="none";
-  })
-  modalWindow.addEventListener("click", ()=>{
-    modalWindow.style.display="none";
-  })
-                                 
-  document.querySelector("#xClose").addEventListener("click", ()=>{
-    addWorkWindow.style.display="none";
-    form.reset()
-    if (document.querySelector(".uploadedImage")){
-      document.querySelector(".uploadedImage").remove()
-    }
-  })
-  addWorkWindow.addEventListener("click", ()=>{
-    addWorkWindow.style.display="none";
-    form.reset()
-    if (document.querySelector(".uploadedImage")){
-      document.querySelector(".uploadedImage").remove()
-    } 
-  })
-  
-  document.querySelector(".fa-arrow-left").addEventListener("click", ()=>{
-    addWorkWindow.style.display="none";
-    document.querySelector("#modalWindow").style.display="flex"
-    form.reset()
-    document.querySelector(".uploadedImage").remove() 
-  })
-                    
+}
 
-  const jsStop = document.querySelectorAll(".jsStop")
-    for (let js of jsStop) {
-      js.addEventListener("click", (e)=>{
-       e.stopPropagation()
-      })
-    }
-                
-   
+fetchEdition()
+  
   inputFile.addEventListener('change', function () {
     let reader = new FileReader();
     reader.addEventListener("load", function(){
@@ -133,7 +161,9 @@ function createOptionSelect(data){
     e.preventDefault()
     console.log (inputFile.files[0].size)
     if(inputFile.files[0].size > 4000000){
-      console.log("trop lourd")
+
+      alert("Le fichier est trop lourd")
+      reset()
     } else {
       const formData = new FormData(form)
       fetch("http://localhost:5678/api/works",{
@@ -146,13 +176,10 @@ function createOptionSelect(data){
       })
       .then(response => response.json()
       )
-      .then(data => {
-        console.log(data)
-        addWorkWindow.style.display="none"
-        form.reset()
-        document.querySelector(".uploadedImage").remove()
-        displayWork(data)
-        displayWorkEdition(data)
+      .then(picture => {
+        reset()
+        fetchEdition()
+        fetchIndex() 
       })
       .catch (function(err) {
         console.log('Une ERREUR est survenue',err)
@@ -162,13 +189,13 @@ function createOptionSelect(data){
 }
 
 
+
 function deleteWork(data){
   const trashes = document.querySelectorAll(".fa-trash-can")
   for (trashCan of trashes){
       trashCan.addEventListener("click",(e)=> {
-        let index =((Array.from(trashes)).indexOf(e.target))
-        let id = (data[index].id)
-        
+        const index =((Array.from(trashes)).indexOf(e.target))
+        const id = (data[index].id)
         fetch(`http://localhost:5678/api/works/${id}`,{
           method:"DELETE",
           headers: {
@@ -177,29 +204,18 @@ function deleteWork(data){
         })
         .then (response => {
           if(response.status === 204 ) {
-            document.querySelector("#modalWindow").style.display="none";
-            document.querySelector("#deleteConfirm").style.display="flex";
-            let deleteImg = document.createElement("img")
-            deleteImg.src = data[index].imageUrl 
-            document.querySelector("#imgContainer").appendChild(deleteImg)
+           modalWindow.style.display="none";
+            thumbnailWindow.style.display="flex";
+            createDeleteThumbnail(data[index])
             document.querySelector("#closeBtn").addEventListener("click",()=>{
-              document.querySelector("#deleteConfirm").style.display="none"
-              document.querySelector(".gallery").innerHTML=" "
-              document.querySelector(".galleryEdition").innerHTML=" "
-
-              for (let work of data){
-                if(work.id !== id) {
-                  displayWork(work)
-                  displayWorkEdition(work)
-                }
-              }
-              document.querySelector("#publishButton").classList.add("publish")
+              closeDeleteThumbnailEvent()
+              fetchEdition()
+              fetchIndex() 
             })  
-
-            document.querySelector("#publishButton").addEventListener("click",()=>
-            window.location.replace("index.html"))           
+                   
           } 
         })            
       }) 
   } 
 }  
+

@@ -163,11 +163,12 @@ li:hover {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 30px;
+	
 }
 
 .gallery img {
 	width: 100%;
-	height:100%;
+	height:450px;
 	object-fit:cover;
 }
 
@@ -414,7 +415,7 @@ color: #B1663C;
 	border-radius: 60px;
 }
 
-#file{
+#image{
 	position:absolute;
 	top:-30px;
 	left:0px;
@@ -423,7 +424,7 @@ color: #B1663C;
 	opacity:0;
 }
 
-#file:hover{
+#image:hover{
 	cursor:pointer;
 }
 
