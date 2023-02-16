@@ -97,12 +97,12 @@ function styleActiveButtons(){
     for (let activeButton of categoryButtons){
       activeButton.classList.remove("active")   
     }
-  button.classList.add("active")
+    button.classList.add("active")
   })
 }
 }
 
- fetch("http://localhost:5678/api/categories") 
+fetch("http://localhost:5678/api/categories") 
  .then(function(response) {
    if (response.ok) {
       return response.json();
@@ -115,7 +115,7 @@ function styleActiveButtons(){
    console.log('Une erreur est survenue',err)})
 
  
-   function fetchIndex() {fetch("http://localhost:5678/api/works")
+   function fetchDisplayWorksHome() {fetch("http://localhost:5678/api/works")
   .then(function(response) {
     if (response.ok) {
       return response.json();
@@ -126,18 +126,17 @@ function styleActiveButtons(){
     
     for (let work of data){
       displayWork(work)
-      
     }
-   deleteWork(data)
-   styleActiveButtons()
-    displayFilter(data) 
+  deleteWork(data)
+  styleActiveButtons()
+  displayFilter(data) 
   })
   .catch (function(err) {
     console.log('Une erreur est survenue',err)
   })
  }
 
-  fetchIndex() 
+fetchDisplayWorksHome() 
   
 
 if (userToken === null){

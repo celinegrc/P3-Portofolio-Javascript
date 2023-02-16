@@ -1,38 +1,27 @@
+const inputFile = document.querySelector("#image")
+const uploadedImg = document.createElement("img")
+const deleteImg = document.createElement("img")
+uploadedImg.classList.add("uploadedImage")
+const form = document.querySelector("#addWorkForm")
+const parentSelect = document.querySelector("#category")
+const emptyOption = document.createElement("option")
+const galleryEdition = document.querySelector(".galleryEdition")
+const jsStop = document.querySelectorAll(".jsStop")
 
-
-  const inputFile = document.querySelector("#image")
-  const uploadedImg = document.createElement("img")
-  const deleteImg = document.createElement("img")
-  uploadedImg.classList.add("uploadedImage")
-  const form = document.querySelector("#addWorkForm")
-  const parentSelect = document.querySelector("#category")
-  const emptyOption = document.createElement("option")
-  const galleryEdition = document.querySelector(".galleryEdition")
-
-  const jsStop = document.querySelectorAll(".jsStop")
-  
-  if (userToken !== null){
-  logInButton.remove()
-  workButtonContainer.remove()
-  logOutButton.addEventListener("click", ()=>{
-    localStorage.removeItem("token")
-    window.location.replace('index.html')
-  })
-
-  function displayWorkEdition(work){
-    const figureEdition = document.createElement("figure")
-    figureEdition.classList.add("editionImg")
-    const deleteIcon  = document.createElement("div")
-    deleteIcon.innerHTML= `<i class="fa-solid fa-trash-can"></i>`
-    const imgEdition = document.createElement("img")
-    imgEdition.src = work.imageUrl
-    const figcaptionEdition = document.createElement("figcaption")
-    figcaptionEdition.innerHTML = "éditer"
-    galleryEdition.appendChild(figureEdition)
-    figureEdition.appendChild(deleteIcon)
-    figureEdition.appendChild(imgEdition)
-    figureEdition.appendChild(figcaptionEdition)
-  }
+function displayWorkEdition(work){
+  const figureEdition = document.createElement("figure")
+  figureEdition.classList.add("editionImg")
+  const deleteIcon  = document.createElement("div")
+  deleteIcon.innerHTML= `<i class="fa-solid fa-trash-can"></i>`
+  const imgEdition = document.createElement("img")
+  imgEdition.src = work.imageUrl
+  const figcaptionEdition = document.createElement("figcaption")
+  figcaptionEdition.innerHTML = "éditer"
+  galleryEdition.appendChild(figureEdition)
+  figureEdition.appendChild(deleteIcon)
+  figureEdition.appendChild(imgEdition)
+  figureEdition.appendChild(figcaptionEdition)
+}
 
 function createOptionSelect(data){
   parentSelect.appendChild(emptyOption)
@@ -56,10 +45,16 @@ function closeAddWorkWindow (element){
   })
 }
 
+function closeAddWorkWindow (element){
+  element.addEventListener("click",()=>{
+  addWorkWindow.style.display="none"
+  })
+}
+
 function reset(){
   form.reset()
-  if (document.querySelector(".uploadedImage")){
-    document.querySelector(".uploadedImage").remove()
+  if (uploadedImg){
+    uploadedImg.remove()
   }
 }
 
@@ -70,7 +65,7 @@ function formReset (element){
 }
 
 function createDeleteThumbnail(data){
-   deleteImg.src = data.imageUrl 
+  deleteImg.src = data.imageUrl 
   document.querySelector("#imgContainer").appendChild(deleteImg) 
 }
 
@@ -79,40 +74,61 @@ function closeDeleteThumbnailEvent(){
   thumbnailWindow.style.display="none" 
 }
 
+function reader(){
+  inputFile.addEventListener("change", ()=> {
+    const reader = new FileReader();
+    reader.addEventListener ("load", ()=>{
+      uploadedImg.src= reader.result
+      document.querySelector(".insertPhoto").append(uploadedImg) 
+    })
+    if (inputFile.files[0].size < 400000){
+      reader.readAsDataURL(inputFile.files[0])
+    } else {
+      fileTooLoud()
+    }   
+  })
+}
 
+function fileTooLoud(){
+  const fileTooLoud = document.createElement('p')
+  document.querySelector(".insertPhoto").before(fileTooLoud)
+  fileTooLoud.innerText="Le fichier est trop volumineux"
+  fileTooLoud.style.color = "#E23D36"
+  document.querySelector(".addContent").addEventListener("click",()=>{
+      fileTooLoud.innerText=" "
+  })
+}
 
 function jsStopPropagation(){
-  for (let js of jsStop) {
-    js.addEventListener("click", (e)=>{
+  for (let element of jsStop) {
+    element.addEventListener("click", (e)=>{
      e.stopPropagation()
     })
   }
 } 
 
+function fetchDisplayEdition(){
+  fetch("http://localhost:5678/api/works")
+  .then(function(response){
+    if (response.ok) {
+      return response.json();
+    }
+  })
+  .then(function(data){
+    galleryEdition.innerHTML=" "
+    for (let work of data){
+      displayWorkEdition(work)
+    }
+  deleteWork(data)
+  })
+  .catch (function(err) {
+  console.log('Une erreur est survenue',err)
+  })
+}
 
-closeModalWindow(document.querySelector(".fa-xmark"))
-  closeModalWindow(modalWindow)
-  closeModalWindow(document.querySelector("#openAddModal"))
-  closeAddWorkWindow(document.querySelector("#xClose"))
-  closeAddWorkWindow(document.querySelector(".fa-arrow-left"))
-  closeAddWorkWindow(document.querySelector("#validButton"))
-  closeAddWorkWindow(addWorkWindow)
-  jsStopPropagation()
-  formReset(addWorkWindow)
-  formReset(document.querySelector("#xClose"))
-  formReset(document.querySelector(".fa-arrow-left"))
-  
-  document.querySelector("#modalLink").addEventListener("click", ()=>{
-    modalWindow.style.display ="flex";
-    })
-                  
-  document.querySelector("#openAddModal").addEventListener("click", ()=>{
-    addWorkWindow.style.display ="flex";
-    })
-
-
+function fetchCreateOption(){
   fetch("http://localhost:5678/api/categories")  
-  .then(function(response) {
+  .then(function(response){
     if (response.ok) {
       return response.json();
     }
@@ -123,48 +139,42 @@ closeModalWindow(document.querySelector(".fa-xmark"))
   .catch (function(err) {
     console.log('Une erreur est survenue',err)
   })
-
-
-  function fetchEdition(){fetch("http://localhost:5678/api/works")
-  .then(function(response) {
-    if (response.ok) {
-      return response.json();
-    }
-  })
-  .then(function(data){
-    galleryEdition.innerHTML=" "
-    for (let work of data){
-      displayWorkEdition(work)
-    }
-   deleteWork(data)
-  })
-  .catch (function(err) {
-    console.log('Une erreur est survenue',err)
-  })
 }
 
-fetchEdition()
-  
-  inputFile.addEventListener('change', function () {
-    let reader = new FileReader();
-    reader.addEventListener("load", function(){
-      
-      uploadedImg.src= reader.result
-      document.querySelector(".insertPhoto").append(uploadedImg);
-    })
-      reader.readAsDataURL(inputFile.files[0]);
-  });
+fetchCreateOption()
 
+function deleteWork(data){
+  const trashes = document.querySelectorAll(".fa-trash-can")
+  for (trashCan of trashes){
+    trashCan.addEventListener("click",(e)=> {
+      const index =((Array.from(trashes)).indexOf(e.target))
+      const id = (data[index].id)
+      fetch(`http://localhost:5678/api/works/${id}`,{
+        method:"DELETE",
+        headers: {
+          'authorization': `Bearer ${userToken}`,
+        }
+      })
+      .then (response => {
+        if(response.status === 204 ) {
+          modalWindow.style.display="none";
+          thumbnailWindow.style.display="flex";
+          createDeleteThumbnail(data[index])
+          document.querySelector("#closeBtn").addEventListener("click",()=>{
+            closeDeleteThumbnailEvent()
+            fetchDisplayEdition()
+            fetchDisplayWorksHome() 
+          })    
+        } 
+      })            
+    }) 
+  } 
+}
 
-  
+function postWork(){ 
   form.addEventListener("submit",(e)=>{
     e.preventDefault()
-    console.log (inputFile.files[0].size)
-    if(inputFile.files[0].size > 4000000){
-
-      alert("Le fichier est trop lourd")
-      reset()
-    } else {
+    if(inputFile.files[0].size < 400000){
       const formData = new FormData(form)
       fetch("http://localhost:5678/api/works",{
         method: "POST",
@@ -178,8 +188,8 @@ fetchEdition()
       )
       .then(picture => {
         reset()
-        fetchEdition()
-        fetchIndex() 
+        fetchDisplayEdition()
+        fetchDisplayWorksHome() 
       })
       .catch (function(err) {
         console.log('Une ERREUR est survenue',err)
@@ -188,34 +198,46 @@ fetchEdition()
   }) 
 }
 
+function logOut(){
+  logOutButton.addEventListener("click", ()=>{
+    localStorage.removeItem("token")
+    window.location.replace('index.html')
+  })
+}
+
+if (userToken !== null){
+  logInButton.remove()
+  workButtonContainer.remove()
+  
+  logOut()
+  fetchDisplayEdition()
+  reader()
+  closeModalWindow(document.querySelector(".fa-xmark"))
+  closeModalWindow(modalWindow)
+  closeModalWindow(document.querySelector("#openAddModal"))
+  closeAddWorkWindow(document.querySelector("#xClose"))
+  closeAddWorkWindow(document.querySelector(".fa-arrow-left"))
+  closeAddWorkWindow(document.querySelector("#validButton"))
+  closeAddWorkWindow(addWorkWindow)
+  jsStopPropagation()
+  postWork()
+  formReset(addWorkWindow)
+  formReset(document.querySelector("#xClose"))
+  formReset(document.querySelector(".fa-arrow-left"))
+  
+  document.querySelector("#modalLink").addEventListener("click", ()=>{
+    modalWindow.style.display ="flex";
+  })
+                  
+  document.querySelector("#openAddModal").addEventListener("click", ()=>{
+    addWorkWindow.style.display ="flex";
+  })
+  
+  document.querySelector((".fa-arrow-left")).addEventListener("click", ()=>{
+    modalWindow.style.display ="flex";
+  })
+  
+}
 
 
-function deleteWork(data){
-  const trashes = document.querySelectorAll(".fa-trash-can")
-  for (trashCan of trashes){
-      trashCan.addEventListener("click",(e)=> {
-        const index =((Array.from(trashes)).indexOf(e.target))
-        const id = (data[index].id)
-        fetch(`http://localhost:5678/api/works/${id}`,{
-          method:"DELETE",
-          headers: {
-            'authorization': `Bearer ${userToken}`,
-          }
-        })
-        .then (response => {
-          if(response.status === 204 ) {
-           modalWindow.style.display="none";
-            thumbnailWindow.style.display="flex";
-            createDeleteThumbnail(data[index])
-            document.querySelector("#closeBtn").addEventListener("click",()=>{
-              closeDeleteThumbnailEvent()
-              fetchEdition()
-              fetchIndex() 
-            })  
-                   
-          } 
-        })            
-      }) 
-  } 
-}  
 
