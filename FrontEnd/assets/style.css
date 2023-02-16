@@ -433,7 +433,7 @@ color: #B1663C;
 	width: 300px;
 }
 
-#Modal:hover, #closeBtn:hover, #boutonSubmit, #validButton {
+#Modal:hover, #closeBtn:hover, #submit, #validButton {
 	cursor:pointer;	
 }
 #deleteConfirm{
