@@ -194,6 +194,9 @@ li:hover {
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	
+}#addWorkForm select{
+	background-color:rgba(255, 255, 255,1);
 }
 #contact label, #connexionForm label{
 	margin: 2em 0 1em 0;
@@ -436,7 +439,7 @@ color: #B1663C;
 #Modal:hover, #closeBtn:hover, #submit, #validButton {
 	cursor:pointer;	
 }
-#deleteConfirm{
+#thumbnailWindow{
 	position:fixed;
 	width:100%;
 	height:100%;
@@ -447,24 +450,30 @@ color: #B1663C;
 	justify-content:center;
 	align-items:center;
 }
- #deleteConfirmContenu{
+ #thumbnailWindowContenu{
 	position:relative;
 	width:300px;
+	height:350px;
 	margin: 0px auto;
 	background-color: #ffffff;
 	overflow:auto;
 	border-radius:10px;
 }
 
-#deleteConfirmContenu p{
+#thumbnailWindowContenu p{
 	font-family: 'work sans';
-	font-size:14px;
-	margin : 1.5em auto ;
+	font-size:15px;
+	margin : 1em auto ;
 	text-align: center;
 	border-radius: 60px ;
 	padding:8px 20px;
 }
-
+.deleteImg{
+	height:220px;
+	object-fit:cover;
+	box-sizing:border-box;
+	margin:0px;
+}
 #closeBtn{
 	background-color:rgba(48, 102, 133, 1) ;
 	color: #ffffff;
@@ -472,12 +481,12 @@ color: #B1663C;
 	width:50%;
 }
 
-#imgContainer{
+#thumbnailContainer{
 	width:50%;
 	margin:auto;
 }
 
-#imgContainer img{
+#thumbnailContainer img{
 	object-fit:cover;
 	width:100%;
 }

@@ -91,31 +91,30 @@
 					<i class="fa-solid fa-arrow-left"></i>
 					<i id ="xClose" class="fa-sharp fa-solid fa-xmark"></i>
 					<h2> Ajout de photo</h2>
-					<form id="addWorkForm" >
+					<form  id="addWorkForm" >
 						<div class="insertPhoto">
 							<i class="fa-regular fa-image"></i>
 							<div id="addButton"> 
 								<label for="image"> + Ajouter photo </label>
-								<input type="file" name ="image" id="image" accept=".png, .jpg"  required>
+								<input type="file" name ="image" id="image" accept=".png,.jpg" required>
 							</div>
-							<p>jpg, png : 4mo max</p>
+							<p id="fileSizeMax">jpg, png : 4mo max</p>
 						</div>
 						<div class="forBorder">
 							<label for="title">Titre</label>
-							<input type="text" name="title" id="title" required>
-
+							<input  type="text" name="title" id="title" required="required">
 							<label for="category">Catégorie</label>
-							<select name="category" id="category" required>
+							<select name="category" id="category" required="required">
 							</select>
 						</div>
 						<input type="submit" value="Valider" id="validButton">
 					</form>	
 				</div>	
 			</aside>
-			<div id="deleteConfirm">
-				<div id="deleteConfirmContenu">
+			<div id="thumbnailWindow">
+				<div id="thumbnailWindowContenu">
 					<p> Photo supprimée</p>
-					<div id="imgContainer"> </div>
+					<div id="thumbnailContainer"> </div>
 					<p id="closeBtn"> Fermer </p>
 				</div>
 			</div>

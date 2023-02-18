@@ -2,11 +2,12 @@ const inputFile = document.querySelector("#image")
 const uploadedImg = document.createElement("img")
 const deleteImg = document.createElement("img")
 uploadedImg.classList.add("uploadedImage")
-const form = document.querySelector("#addWorkForm")
+const postForm = document.querySelector("#addWorkForm")
 const parentSelect = document.querySelector("#category")
 const emptyOption = document.createElement("option")
 const galleryEdition = document.querySelector(".galleryEdition")
 const jsStop = document.querySelectorAll(".jsStop")
+const postBtn = document.querySelector("#validButton")
 
 function displayWorkEdition(work){
   const figureEdition = document.createElement("figure")
@@ -52,7 +53,7 @@ function closeAddWorkWindow (element){
 }
 
 function reset(){
-  form.reset()
+  postForm.reset()
   if (uploadedImg){
     uploadedImg.remove()
   }
@@ -66,7 +67,8 @@ function formReset (element){
 
 function createDeleteThumbnail(data){
   deleteImg.src = data.imageUrl 
-  document.querySelector("#imgContainer").appendChild(deleteImg) 
+  document.querySelector("#thumbnailContainer").appendChild(deleteImg)
+  deleteImg.classList.add("deleteImg") 
 }
 
 function closeDeleteThumbnailEvent(){
@@ -91,12 +93,19 @@ function reader(){
 
 function fileTooLoud(){
   const fileTooLoud = document.createElement('p')
-  document.querySelector(".insertPhoto").before(fileTooLoud)
+  document.querySelector(".insertPhoto").append(fileTooLoud)
   fileTooLoud.innerText="Le fichier est trop volumineux"
   fileTooLoud.style.color = "#E23D36"
+  fileTooLoud.style.fontWeight="bold"
   document.querySelector(".addContent").addEventListener("click",()=>{
       fileTooLoud.innerText=" "
   })
+  document.querySelector("#fileSizeMax").style.color = "#E23D36"
+  document.querySelector("#fileSizeMax").style.fontWeight="bold"
+  document.querySelector(".addContent").addEventListener("click",()=>{
+  document.querySelector("#fileSizeMax").style.color = "black"
+  document.querySelector("#fileSizeMax").style.fontWeight="normal"
+})
 }
 
 function jsStopPropagation(){
@@ -141,8 +150,6 @@ function fetchCreateOption(){
   })
 }
 
-fetchCreateOption()
-
 function deleteWork(data){
   const trashes = document.querySelectorAll(".fa-trash-can")
   for (trashCan of trashes){
@@ -172,22 +179,22 @@ function deleteWork(data){
 }
 
 function postWork(){ 
-  form.addEventListener("submit",(e)=>{
-    e.preventDefault()
+  postForm.addEventListener("submit",(e)=>{
+   e.preventDefault()
     if(inputFile.files[0].size < 400000){
-      const formData = new FormData(form)
+      const formData = new FormData(postForm)
       fetch("http://localhost:5678/api/works",{
         method: "POST",
         headers: {
           'authorization': `Bearer ${userToken}`,
           'accept':'application/json',
         },
-        body:formData   
+        body: formData   
       })
-      .then(response => response.json()
-      )
-      .then(picture => {
+      .then(response => {
+        console.log(response)
         reset()
+        addWorkWindow.style.display="none"
         fetchDisplayEdition()
         fetchDisplayWorksHome() 
       })
@@ -201,14 +208,15 @@ function postWork(){
 function logOut(){
   logOutButton.addEventListener("click", ()=>{
     localStorage.removeItem("token")
-    window.location.replace('index.html')
+    window.location.replace("index.html")
+   fetchDisplayWorksHome()
   })
 }
 
 if (userToken !== null){
   logInButton.remove()
   workButtonContainer.remove()
-  
+  fetchCreateOption()
   logOut()
   fetchDisplayEdition()
   reader()
@@ -217,7 +225,7 @@ if (userToken !== null){
   closeModalWindow(document.querySelector("#openAddModal"))
   closeAddWorkWindow(document.querySelector("#xClose"))
   closeAddWorkWindow(document.querySelector(".fa-arrow-left"))
-  closeAddWorkWindow(document.querySelector("#validButton"))
+  //closeAddWorkWindow(document.querySelector("#validButton"))
   closeAddWorkWindow(addWorkWindow)
   jsStopPropagation()
   postWork()

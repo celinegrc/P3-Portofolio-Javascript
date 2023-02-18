@@ -4,7 +4,7 @@ const workButtonContainer = document.createElement("ul")
 const gallery = document.querySelector(".gallery")
 const modalWindow = document.querySelector("#modalWindow")
 const addWorkWindow = document.querySelector("#addWork")
-const thumbnailWindow = document.querySelector("#deleteConfirm")
+const thumbnailWindow = document.querySelector("#thumbnailWindow")
 const windowsEditionMode = [modalWindow, addWorkWindow, thumbnailWindow]
 const categoryButtons = document.querySelectorAll(".buttons")
 const logOutButton =  document.querySelector("#logoutButton")
@@ -127,9 +127,9 @@ fetch("http://localhost:5678/api/categories")
     for (let work of data){
       displayWork(work)
     }
-  deleteWork(data)
-  styleActiveButtons()
-  displayFilter(data) 
+    deleteWork(data)
+    styleActiveButtons()
+    displayFilter(data) 
   })
   .catch (function(err) {
     console.log('Une erreur est survenue',err)
