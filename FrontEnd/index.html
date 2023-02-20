@@ -10,12 +10,11 @@
 			<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 			<link rel="stylesheet" href="./assets/style.css">
 			<script src="script.js" defer></script>
-			<script src="EditionMode.js" defer ></script>
-			<meta name="description" content="">
-			
+			<script src="editingMode.js" defer ></script>
+			<meta name="description" content="">	
 		</head>
 		<body>
-			<div class="editionMode">
+			<div class="edition_mode">
 				<div>
 					<i class="fa-regular fa-pen-to-square"></i>
 					<span>Mode Edition</span>
@@ -91,7 +90,7 @@
 					<i class="fa-solid fa-arrow-left"></i>
 					<i id ="xClose" class="fa-sharp fa-solid fa-xmark"></i>
 					<h2> Ajout de photo</h2>
-					<form  id="addWorkForm" >
+					<form  id="addWorkForm">
 						<div class="insertPhoto">
 							<i class="fa-regular fa-image"></i>
 							<div id="addButton"> 
@@ -103,9 +102,6 @@
 						<div class="forBorder">
 							<label for="title">Titre</label>
 							<input  type="text" name="title" id="title" required="required">
-							<label for="category">Catégorie</label>
-							<select name="category" id="category" required="required">
-							</select>
 						</div>
 						<input type="submit" value="Valider" id="validButton">
 					</form>	
