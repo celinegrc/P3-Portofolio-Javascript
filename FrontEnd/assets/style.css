@@ -34,6 +34,13 @@ body {
 ol, ul {
 	list-style: none;
 }
+a {
+	color:black;
+	text-decoration: none;
+}
+li a:hover{
+color: #B1663C;
+}
 blockquote, q {
 	quotes: none;
 }
@@ -61,8 +68,7 @@ header {
 section {
 	margin: 50px 0
 }
-
-h1{
+h1 {
 	display: flex;
 	flex-direction: column;
 	font-family: 'Syne';
@@ -70,15 +76,12 @@ h1{
 	font-weight: 800;
 	color: #B1663C
 }
-
 h1 > span {
 	font-family: 'Work Sans';
 	font-size:10px;
 	letter-spacing: 0.1em;
-;
 }
-
-h2{
+h2 {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 30px;
@@ -94,7 +97,6 @@ nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
 }
-
 li:hover {
 	color: #B1663C;
 }
@@ -110,14 +112,12 @@ li:hover {
 	margin: auto;
 	width: 80%;
 }
-
 #introduction article {
 	flex: 1
 }
 #introduction h2 {
 	margin-bottom: 1em;
 }
-
 #introduction p {
 	margin-bottom: 0.5em;
 }
@@ -125,16 +125,13 @@ li:hover {
 	text-align: center;
 	margin-bottom: 1em;
 }
-/* Ajout du style du bouton*/
-.buttonContainer{
+.buttonContainer {
 	display:flex;
 	flex-direction:row;
 	justify-content: center;
 }
-
-
-.buttons{
-	padding:10px 18px  8px 15px;
+.buttons {
+	padding: 10px 18px 8px 15px;
 	font-family: 'Syne';
 	font-size:16px;
 	font-weight:700;
@@ -143,7 +140,7 @@ li:hover {
 	border-radius:60px;
 	margin-bottom:30px;
 	margin-right:15px;
-	background-color: rgb(250, 250, 250);
+	background-color: #ffffff;
 }
 
 .active{
@@ -151,7 +148,6 @@ li:hover {
   	cursor: pointer;
 	color: #ffffff; 
 }
-
 .buttons:hover{
 	background-color: #1D6154;
   	cursor: pointer;
@@ -162,16 +158,13 @@ li:hover {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 30px;
-	
+	grid-row-gap: 30px;	
 }
-
 .gallery img {
 	width: 100%;
 	height:450px;
 	object-fit:cover;
 }
-
 #contact, #connexionForm {
 	width: 50%;
 	margin: auto;
@@ -182,13 +175,12 @@ li:hover {
 #contact h2, #connexionForm h2{
 	margin-bottom: 20px;
 }
-#contact form, #connexionForm form, #addWorkForm   {
+#contact form, #connexionForm form, #addWorkForm {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
-
 #contact input, #connexionForm input, #addWorkForm input, #addWorkForm select {
 	height: 50px;
 	font-size: 1.2em;
@@ -196,7 +188,7 @@ li:hover {
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	
 }#addWorkForm select{
-	background-color:rgba(255, 255, 255,1);
+	background-color:#ffffff;
 }
 #contact label, #connexionForm label{
 	margin: 2em 0 1em 0;
@@ -205,7 +197,6 @@ li:hover {
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-
 input[type="submit"]{
 	font-family: 'Syne';
 	font-weight: 700;
@@ -216,19 +207,10 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 }
-
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
-}
-
- a{
-	color:black;
-	text-decoration: none;
-}
-li a:hover{
-color: #B1663C;
 }
 #email, #password{
 	margin-bottom: 10px;
@@ -242,25 +224,15 @@ color: #B1663C;
 	align-items:baseline;
 	width:100%;
 }
-
 .edition_mode div{
 	padding-top:20px;
 	margin-right:10px;
 	font-size:16px;	
 }
-
-#publishButton{
-	background-color:#ffffff;
-	color:#000000;
-	border-radius:60px;
-	padding:8px 20px;
-}
-
 #introduction figure figcaption{
 	margin-left: 55px;
 	margin-top: 15px;
-  }
-
+}
 .modifTag{
 	font-size:14px;
 	font-weight: 400;
@@ -272,11 +244,10 @@ color: #B1663C;
 }
 #portfolio h2 span{
 	margin-left: 20px;
-  }
+}
 #introduction article h2{
 	margin-top: 20px;
 }
-
 #modalWindow, #addWork{
 	position:fixed;
 	width:100%;
@@ -288,7 +259,6 @@ color: #B1663C;
 	justify-content:center;
 	align-items:center;
 }
-
 .modalContent, .addContent {
 	position:relative;
 	margin:auto;
@@ -297,7 +267,6 @@ color: #B1663C;
 	overflow:auto;
 	border-radius:10px;
 }
-
 .galleryEdition {
 	width: 70%;
 	margin: 30px auto;
@@ -313,7 +282,7 @@ color: #B1663C;
 	height:120px;
 	object-fit:cover;
 }
-.editionImg{
+.editionImg {
 	position:relative;
 }
 .fa-trash-can{
@@ -326,7 +295,6 @@ color: #B1663C;
 	border-radius:4px;
 	font-size:0.8em;
 }
-
 .modalContent h2, .addContent h2{
 	text-align: center;
 	font-family: work sans;
@@ -335,15 +303,13 @@ color: #B1663C;
 	font-weight:400;
 	margin-top: 50px;
 }
-
 .fa-xmark{
 	position:absolute;
 	left: 710px;
 	top:30px;
 	font-size:18px
 }
-
-.modalContent p{
+.modalContent p {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size:14px;
@@ -355,8 +321,7 @@ color: #B1663C;
 	border-radius: 60px ;
 	padding:8px 20px;
 }
-
-#gallerySuppression{
+#gallerySuppression {
 	color: rgba(214,83,83,1);
 	font-weight: 400;
 	background-color: #ffffff;
@@ -367,7 +332,7 @@ color: #B1663C;
 	top:30px;
 	font-size:18px
 }
-.insertPhoto{
+.insertPhoto {
 	position:relative;
 	height: 200px;
 	background-color: rgba(232, 241, 246, 1);
@@ -379,35 +344,29 @@ color: #B1663C;
 	justify-content: space-around;
 	align-items:center;	
 }
-
 #addWorkForm {
 	width:70%;
 	margin:20px auto;
 	display:flex;
 	flex-direction: column;
 }
-
-#addWorkForm label{
+#addWorkForm label {
 	margin:15px 0px;
 }
-
-.forBorder{
+.forBorder {
 	display:flex;
 	flex-direction:column;
 	border-bottom: 1px solid rgba(179,179,179,1);
 	padding-bottom: 50px;
 }
-
-.fa-image{
+.fa-image {
 	font-size: 80px;
 	color: rgba(185, 197, 204, 1);
 }
-
 #addButton {
 	position: relative;
 }
-
-#addButton label{
+#addButton label {
 	font-family: 'work sans';
 	font-weight: 600;
 	font-size: 14px;
@@ -417,8 +376,7 @@ color: #B1663C;
 	text-align: center;
 	border-radius: 60px;
 }
-
-#image{
+#image {
 	position:absolute;
 	top:-30px;
 	left:0px;
@@ -426,20 +384,17 @@ color: #B1663C;
 	height:100%;
 	opacity:0;
 }
-
-#image:hover{
+#image:hover {
 	cursor:pointer;
 }
-
-#validButton{
+#validButton {
 	background: rgba(167, 167, 167, 1);
 	width: 300px;
 }
-
 #Modal:hover, #closeBtn:hover, #submit, #validButton {
 	cursor:pointer;	
 }
-#thumbnailWindow{
+#thumbnailWindow {
 	position:fixed;
 	width:100%;
 	height:100%;
@@ -450,7 +405,7 @@ color: #B1663C;
 	justify-content:center;
 	align-items:center;
 }
- #thumbnailWindowContenu{
+ #thumbnailWindowContenu {
 	position:relative;
 	width:300px;
 	height:350px;
@@ -459,8 +414,7 @@ color: #B1663C;
 	overflow:auto;
 	border-radius:10px;
 }
-
-#thumbnailWindowContenu p{
+#thumbnailWindowContenu p {
 	font-family: 'work sans';
 	font-size:15px;
 	margin : 1em auto ;
@@ -468,40 +422,29 @@ color: #B1663C;
 	border-radius: 60px ;
 	padding:8px 20px;
 }
-.deleteImg{
+.deleteImg {
 	height:220px;
 	object-fit:cover;
 	box-sizing:border-box;
 	margin:0px;
 }
-#closeBtn{
+#closeBtn {
 	background-color:rgba(48, 102, 133, 1) ;
 	color: #ffffff;
 	box-sizing:border-box;
 	width:50%;
 }
-
-#thumbnailContainer{
+#thumbnailContainer {
 	width:50%;
 	margin:auto;
 }
-
-#thumbnailContainer img{
+#thumbnailContainer img {
 	object-fit:cover;
 	width:100%;
 }
 .publish:hover {
 	cursor:pointer;
 }
-
-
-/*.image{
-	height:100%;
-	width:40%;
-	background-color: antiquewhite;
-	position: absolute;
-	display:none;
-}*/
 
 .uploadedImage {
 width:40%;
