@@ -1,5 +1,4 @@
-let userToken = localStorage.getItem("token")
-
+const userToken = localStorage.getItem("token")
 const workButtonContainer = document.createElement("ul")
 const gallery = document.querySelector(".gallery")
 const modalWindow = document.querySelector("#modalWindow")
@@ -9,19 +8,19 @@ const windowsEditionMode = [modalWindow, addWorkWindow, thumbnailWindow]
 const categoryButtons = document.querySelectorAll(".buttons")
 const logOutButton =  document.querySelector("#logoutButton")
 const logInButton = document.querySelector("#loginButton")
-const headerEdition = document.querySelector(".editionMode")
-const EditionModeElement =[logOutButton, headerEdition, modalWindow, addWorkWindow, thumbnailWindow]
+const headerEdition = document.querySelector(".edition_mode")
+const editionModeElement =[logOutButton, headerEdition, modalWindow, addWorkWindow, thumbnailWindow]
 const modifyTag = document.querySelectorAll(".modifTag")
  
 function pushModifyTag() {
   for (let tag of modifyTag){
-      EditionModeElement.push(tag)
+      editionModeElement.push(tag)
   }
 }
 
 function undisplayEditionModeElement(){
   pushModifyTag()
-  for (let element of EditionModeElement){
+  for (let element of editionModeElement){
     element.remove()
   }
 } 
@@ -41,7 +40,7 @@ function displayWork(work){
   gallery.appendChild(workFigure)
   workFigure.appendChild(workImg)
   workFigure.appendChild(workFigcaption)
- }
+}
 
 function createContainerFilterButtons(){
 workButtonContainer.classList.add("buttonContainer")
@@ -65,7 +64,6 @@ function createCategoryButtons(categorySet){
     workButtonContainer.appendChild(workButton)
   } 
 }
-
 
 function displayFilter(data){
   const categoryButtons = document.querySelectorAll('.buttons')
@@ -102,49 +100,43 @@ function styleActiveButtons(){
 }
 }
 
-fetch("http://localhost:5678/api/categories") 
- .then(function(response) {
-   if (response.ok) {
-      return response.json();
-   }
-  })
- .then(function(categories){
-  createCategorySet(categories)
-  })
- .catch (function(err) {
-   console.log('Une erreur est survenue',err)})
+async function fetchCategorySet(){
+  try{
+    const response = await fetch("http://localhost:5678/api/categories") 
+    const categories = await response.json()
+    createCategorySet(categories)
+  }
+  catch (err) {
+   console.log('Une erreur est survenue',err)
+  }
+}
 
- 
-   function fetchDisplayWorksHome() {fetch("http://localhost:5678/api/works")
-  .then(function(response) {
-    if (response.ok) {
-      return response.json();
-    }
-  })
-  .then(function(data){
-    gallery.innerHTML=" "
-    
+async function fetchDisplayWorksHome() {
+  try{
+  const response = await fetch("http://localhost:5678/api/works")
+  const data = await response.json()
+  gallery.innerHTML=" "
     for (let work of data){
       displayWork(work)
     }
-    deleteWork(data)
     styleActiveButtons()
     displayFilter(data) 
-  })
-  .catch (function(err) {
+  }
+  catch (err) {
     console.log('Une erreur est survenue',err)
-  })
- }
+  }
+}
 
+fetchCategorySet()
 fetchDisplayWorksHome() 
-  
+createContainerFilterButtons()
+undisplayWindowsEdition ()
+
 
 if (userToken === null){
   undisplayEditionModeElement()
 }
 
-createContainerFilterButtons()
-undisplayWindowsEdition ()
 
 
 
