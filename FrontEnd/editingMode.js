@@ -1,24 +1,27 @@
 const inputFile = document.querySelector("#image")
-const uploadedImg = document.createElement("img")
-const deleteImg = document.createElement("img")
-uploadedImg.classList.add("uploadedImage")
 const postForm = document.querySelector("#addWorkForm")
-const emptyOption = document.createElement("option")
-const labelForCategory = document.createElement("label")
-labelForCategory.innerText="Catégorie"
-labelForCategory.setAttribute("for","category")
-const selectCategory = document.createElement("select")
-selectCategory.setAttribute("name","category"  )
-selectCategory.setAttribute("id","category")
-selectCategory.setAttribute("required","required")
 const galleryEdition = document.querySelector(".galleryEdition")
 const jsStop = document.querySelectorAll(".jsStop")
 const postBtn = document.querySelector("#validButton")
 const arrow = document.querySelector(".fa-arrow-left")
 const xClose = (document.querySelector("#xClose"))
+
+const uploadedImg = document.createElement("img")
+const deleteImg = document.createElement("img")
+const emptyOption = document.createElement("option")
+const labelForCategory = document.createElement("label")
+const selectCategory = document.createElement("select")
 const tooLoudMessage = document.createElement('p')
 
-function displayWorkEdition(work){
+function initSetArribute() {
+  selectCategory.setAttribute("name","category")
+  selectCategory.setAttribute("id","category")
+  selectCategory.setAttribute("required","required")
+  labelForCategory.innerText="Catégorie"
+  labelForCategory.setAttribute("for","category")
+}
+
+function displayWorkEdition(work) {
   const figureEdition = document.createElement("figure")
   figureEdition.classList.add("editionImg")
   const deleteIcon  = document.createElement("div")
@@ -33,11 +36,12 @@ function displayWorkEdition(work){
   figureEdition.appendChild(figcaptionEdition)
 }
 
-function createOptionSelect(data){
+function createOptionSelect(data) {
+  initSetArribute()
   document.querySelector(".forBorder").append(labelForCategory)
   labelForCategory.after(selectCategory)
   selectCategory.appendChild(emptyOption)
-    for(let category of data){
+    for(let category of data) {
       let optionCategory = document.createElement("option")
       optionCategory.innerText = category.name
       optionCategory.value = category.id
@@ -45,56 +49,57 @@ function createOptionSelect(data){
     }
 }
 
-function closeModalWindow (element){
-  element.addEventListener("click",()=>{
+function closeModalWindow (element) {
+  element.addEventListener("click",()=> {
   modalWindow.style.display="none"
   })
 }
 
-function closeAddWorkWindow (element){
-  element.addEventListener("click",()=>{
+function closeAddWorkWindow (element) {
+  element.addEventListener("click",()=> {
   addWorkWindow.style.display="none"
   })
 }
 
-function closeAddWorkWindow (element){
-  element.addEventListener("click",()=>{
+function closeAddWorkWindow (element) {
+  element.addEventListener("click",()=> {
   addWorkWindow.style.display="none"
   })
 }
 
-function reset(){
+function resetAll() {
   postForm.reset()
   if (uploadedImg){
     uploadedImg.remove()
   }
 }
 
-function formReset (element){
-  element.addEventListener("click",()=>{
-    reset()
+function formReset (element) {
+  element.addEventListener("click",()=> {
+    resetAll()
   })
 }
 
-function createDeleteThumbnail(data){
+function createDeleteThumbnail(data) {
   deleteImg.src = data.imageUrl 
   document.querySelector("#thumbnailContainer").appendChild(deleteImg)
   deleteImg.classList.add("deleteImg") 
 }
 
-function closeDeleteThumbnail(){
+function closeDeleteThumbnail() {
   deleteImg.remove()
   thumbnailWindow.style.display="none" 
 }
 
-function reader(){
+function reader() {
   inputFile.addEventListener("change", ()=> {
     const reader = new FileReader();
-    reader.addEventListener ("load", ()=>{
+    reader.addEventListener ("load", ()=> {
+      uploadedImg.classList.add("uploadedImage")
       uploadedImg.src= reader.result
       document.querySelector(".insertPhoto").append(uploadedImg) 
     })
-    if (inputFile.files[0].size < 400000){
+    if (inputFile.files[0].size < 400000) {
       reader.readAsDataURL(inputFile.files[0])
     } else {
       fileTooLoud()
@@ -106,7 +111,7 @@ function reader(){
   })
 }
 
-function fileTooLoud(){
+function fileTooLoud() {
   document.querySelector(".insertPhoto").before(tooLoudMessage)
   tooLoudMessage.innerText="Le fichier est trop volumineux"
   tooLoudMessage.style.color = "#E23D36"
@@ -114,39 +119,37 @@ function fileTooLoud(){
   document.querySelector("#fileSizeMax").style.color = "#E23D36"
 }
 
-function resetFileTooLoud(element){
-  element.addEventListener("click",()=>{
+function resetFileTooLoud(element) {
+  element.addEventListener("click",()=> {
     tooLoudMessage.innerText=" "
-    document.querySelector("#fileSizeMax").style.color = "black"
-    reset()
+    document.querySelector("#fileSizeMax").style.color = "#000000"
   })
 }
   
-function jsStopPropagation(){
+function jsStopPropagation() {
   for (let element of jsStop) {
-    element.addEventListener("click", (e)=>{
+    element.addEventListener("click", (e)=> {
      e.stopPropagation()
     })
   }
 } 
 
-function logOut(){
-  logOutButton.addEventListener("click", ()=>{
+function logOut() {
+  logOutButton.addEventListener("click", ()=> {
     localStorage.removeItem("token")
     window.location.replace("index.html")
-    //fetchDisplayWorksHome()
   })
 }
 
-function eventCloseThumbnail(){
-  document.querySelector("#closeBtn").addEventListener("click",()=>{
+function eventCloseThumbnail() {
+  document.querySelector("#closeBtn").addEventListener("click",()=> {
   closeDeleteThumbnail()
   fetchDisplayEdition()
   fetchDisplayWorksHome()
   })
 }
 
-async function fetchDisplayEdition(){
+async function fetchDisplayEdition() {
   try {
     const response = await  fetch("http://localhost:5678/api/works")
     const data = await response.json()
@@ -155,28 +158,24 @@ async function fetchDisplayEdition(){
         displayWorkEdition(work)
       }
     deleteWork(data)
-  }
-  catch (err) {
+  } catch (err) {
   console.log('Une erreur est survenue',err)
   }
 }
 
-async function fetchCreateOption(){
+async function fetchCreateOption() {
   try {
   const response = await fetch("http://localhost:5678/api/categories")
   const data = await response.json()
   createOptionSelect(data)
-  }
-  catch (err) {
+  } catch (err) {
     console.log('Une erreur est survenue',err)
   }
 }
 
-
-
-function deleteWork(data){
+function deleteWork(data) {
   const trashes = document.querySelectorAll(".fa-trash-can")
-  for (trashCan of trashes){
+  for (trashCan of trashes) {
     trashCan.addEventListener("click",(e)=> {
       const index =((Array.from(trashes)).indexOf(e.target))
       const id = (data[index].id)
@@ -198,8 +197,8 @@ function deleteWork(data){
   } 
 }
 
-async function fetchPostWork(formData){
-  try{
+async function fetchPostWork(formData) {
+  try {
     const response = await fetch("http://localhost:5678/api/works",{
       method: "POST",
       headers: {
@@ -209,27 +208,26 @@ async function fetchPostWork(formData){
       body: formData   
     })
     const rep = await response.json() 
-      reset()
+      resetAll()
       addWorkWindow.style.display="none"
       fetchDisplayEdition()
       fetchDisplayWorksHome()    
-  }
-  catch (err) {
-    console.log('Une ERREUR est survenue',err)
+  } catch (err) {
+    console.log('Une erreur est survenue',err)
   }
 }
 
-function postWork(){ 
-  postForm.addEventListener("submit",(e)=>{
+function postWork() { 
+  postForm.addEventListener("submit",(e)=> {
     e.preventDefault()
-    if(inputFile.files[0].size < 400000){
+    if (inputFile.files[0].size < 400000) {
       const formData = new FormData(postForm)
       fetchPostWork(formData)
     }
   }) 
 }
 
-if (userToken !== null){
+if (userToken !== null) {
   logInButton.remove()
   workButtonContainer.remove()
   fetchCreateOption()
@@ -248,13 +246,13 @@ if (userToken !== null){
   formReset(xClose)
   formReset(arrow)
   
-  document.querySelector("#modalLink").addEventListener("click", ()=>{
+  document.querySelector("#modalLink").addEventListener("click", ()=> {
     modalWindow.style.display ="flex";
   })             
-  document.querySelector("#openAddModal").addEventListener("click", ()=>{
+  document.querySelector("#openAddModal").addEventListener("click", ()=> {
     addWorkWindow.style.display ="flex";
   })
-  arrow.addEventListener("click", ()=>{
+  arrow.addEventListener("click", ()=> {
     modalWindow.style.display ="flex";
   }) 
 }
