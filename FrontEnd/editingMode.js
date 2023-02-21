@@ -99,7 +99,7 @@ function reader() {
       uploadedImg.src= reader.result
       document.querySelector(".insertPhoto").append(uploadedImg) 
     })
-    if (inputFile.files[0].size < 400000) {
+    if (inputFile.files[0].size < 4000000) {
       reader.readAsDataURL(inputFile.files[0])
     } else {
       fileTooLoud()
@@ -220,7 +220,7 @@ async function fetchPostWork(formData) {
 function postWork() { 
   postForm.addEventListener("submit",(e)=> {
     e.preventDefault()
-    if (inputFile.files[0].size < 400000) {
+    if (inputFile.files[0].size < 4000000) {
       const formData = new FormData(postForm)
       fetchPostWork(formData)
     }
