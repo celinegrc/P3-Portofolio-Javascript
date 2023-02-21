@@ -71,11 +71,11 @@ function displayFilter(data) {
   for (let button of categoryButtons) {
     button.addEventListener("click",(e) => {
       gallery.innerHTML=" ";
-      const workFiltres = data.filter(
+      const workFilters = data.filter(
       data => data.category.name === e.target.innerText
       )
-      for (let workFiltre of workFiltres){      
-        displayWork(workFiltre)
+      for (let workFilter of workFilters){      
+        displayWork(workFilter)
       }
       for (let work of data) {       
         if (button.innerText === "Tous") {
@@ -92,12 +92,12 @@ function styleActiveButtons() {
     if (button.innerText === "Tous") {
       button.classList.add("active")
     }
-  button.addEventListener("click",() => {
-    for (let activeButton of categoryButtons){
-      activeButton.classList.remove("active")   
-    }
-    button.classList.add("active")
-  })
+    button.addEventListener("click",() => {
+      for (let activeButton of categoryButtons){
+        activeButton.classList.remove("active")   
+      }
+      button.classList.add("active")
+    })
   }
 }
 
@@ -107,7 +107,7 @@ async function fetchCategorySet() {
     const categories = await response.json()
     createCategorySet(categories)
   } catch (err) {
-   console.log('Une erreur est survenue',err)
+   console.log("Une erreur est survenue",err)
   }
 }
 
@@ -119,7 +119,6 @@ async function fetchDisplayWorksHome() {
     for (let work of data) {
       displayWork(work)
     }
-    styleActiveButtons()
     displayFilter(data) 
   } catch (err) {
     console.log('Une erreur est survenue',err)
