@@ -7,7 +7,6 @@ const logError = document.createElement("p")
 function connexionIsOk(data) {
   if (data.token) {
     localStorage.setItem("token", data.token);
-    localStorage.setItem("userId", data.userId)
     window.location.replace("index.html")
   } 
 }
@@ -31,9 +30,9 @@ function displayLogError(data) {
 
 function fetchConnexion(emailValue,passwordValue) {
   fetch("http://localhost:5678/api/users/login", {
-    method: 'POST', 
+    method: "POST", 
     headers: {
-      'Content-Type': 'application/json;charset=utf-8',
+      "Content-Type": "application/json;charset=utf-8",
     },
     body: JSON.stringify (
       {
