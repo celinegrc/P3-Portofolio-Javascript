@@ -23,9 +23,11 @@ function initSetArribute() {
 
 function displayWorkEdition(work) {
   const figureEdition = document.createElement("figure")
+  figureEdition.setAttribute("id", "edition"+work.id)
   figureEdition.classList.add("editionImg")
-  const deleteIcon  = document.createElement("div")
+  const deleteIcon = document.createElement("div")
   deleteIcon.innerHTML= `<i class="fa-solid fa-trash-can"></i>`
+  deleteIcon.setAttribute("id",work.id)
   const imgEdition = document.createElement("img")
   imgEdition.src = work.imageUrl
   const figcaptionEdition = document.createElement("figcaption")
@@ -80,20 +82,9 @@ function formReset (element) {
   })
 }
 
-function createDeleteThumbnail(data) {
-  deleteImg.src = data.imageUrl 
-  document.querySelector("#thumbnailContainer").appendChild(deleteImg)
-  deleteImg.classList.add("deleteImg") 
-}
-
-function closeDeleteThumbnail() {
-  deleteImg.remove()
-  thumbnailWindow.style.display="none" 
-}
-
 function reader() {
   inputFile.addEventListener("change", ()=> {
-    const reader = new FileReader();
+     const reader = new FileReader();
     reader.addEventListener ("load", ()=> {
       uploadedImg.classList.add("uploadedImage")
       uploadedImg.src= reader.result
@@ -107,7 +98,7 @@ function reader() {
       resetFileTooLoud(arrow)
       resetFileTooLoud(inputFile)
       resetFileTooLoud(addWorkWindow)
-    }   
+    } 
   })
 }
 
@@ -125,11 +116,11 @@ function resetFileTooLoud(element) {
     document.querySelector("#fileSizeMax").style.color = "#000000"
   })
 }
-  
+ 
 function jsStopPropagation() {
   for (let element of jsStop) {
     element.addEventListener("click", (e)=> {
-     e.stopPropagation()
+      e.stopPropagation()
     })
   }
 } 
@@ -141,23 +132,14 @@ function logOut() {
   })
 }
 
-function eventCloseThumbnail() {
-  document.querySelector("#closeBtn").addEventListener("click",()=> {
-  closeDeleteThumbnail()
-  fetchDisplayEdition()
-  fetchDisplayWorksHome()
-  })
-}
-
 async function fetchDisplayEdition() {
   try {
-    const response = await  fetch("http://localhost:5678/api/works")
+    const response = await  fetch("http://localhost:5678/api/works")
     const data = await response.json()
     galleryEdition.innerHTML=" "
       for (let work of data){
         displayWorkEdition(work)
       }
-    deleteWork(data)
   } catch (err) {
   console.log('Une erreur est survenue',err)
   }
@@ -173,26 +155,26 @@ async function fetchCreateOption() {
   }
 }
 
-function deleteWork(data) {
+function deleteWork() {
   const trashes = document.querySelectorAll(".fa-trash-can")
   for (trashCan of trashes) {
     trashCan.addEventListener("click",(e)=> {
-      const index =((Array.from(trashes)).indexOf(e.target))
-      const id = (data[index].id)
+      const id = ((e.target).parentNode.id)
+      const figureToDelete = document.getElementById("idWork"+id)
+      const figureToDeleteEdition = document.getElementById("edition"+id) 
       fetch(`http://localhost:5678/api/works/${id}`,{
         method:"DELETE",
-        headers: {
-          'authorization': `Bearer ${userToken}`,
+         headers: {
+        'authorization': `Bearer ${userToken}`,
         }
       })
       .then (response => {
         if (response.status === 204 ) {
-          modalWindow.style.display="none";
-          thumbnailWindow.style.display="flex";
-          createDeleteThumbnail(data[index])
-          eventCloseThumbnail()     
+        modalWindow.style.display="none";
+        figureToDelete.remove()
+        figureToDeleteEdition.remove() 
         } 
-      })            
+      }) 
     }) 
   } 
 }
@@ -205,13 +187,14 @@ async function fetchPostWork(formData) {
         'authorization': `Bearer ${userToken}`,
         'accept':'application/json',
       },
-      body: formData   
+      body: formData  
     })
     const rep = await response.json() 
       resetAll()
       addWorkWindow.style.display="none"
-      fetchDisplayEdition()
-      fetchDisplayWorksHome()    
+      console.log(rep)
+     displayWork(rep)
+     displayWorkEdition(rep)
   } catch (err) {
     console.log('Une erreur est survenue',err)
   }
@@ -245,10 +228,11 @@ if (userToken !== null) {
   formReset(addWorkWindow)
   formReset(xClose)
   formReset(arrow)
-  
+   
   document.querySelector("#modalLink").addEventListener("click", ()=> {
     modalWindow.style.display ="flex";
-  })             
+    deleteWork()
+  })  
   document.querySelector("#openAddModal").addEventListener("click", ()=> {
     addWorkWindow.style.display ="flex";
   })
@@ -256,6 +240,3 @@ if (userToken !== null) {
     modalWindow.style.display ="flex";
   }) 
 }
-
-
-
